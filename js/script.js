@@ -1,3 +1,7 @@
+// fix Safari delayed & inconsistent volume changes using webkit
+const AudioContext = window.AudioContext || window.webkitAudioContext;
+const audioCtx = new AudioContext();
+
 // select audio tags & .key div elements (this will create arrays)
 const audio = document.querySelectorAll("audio");
 const keyDivs = document.querySelectorAll(".key");
@@ -13,6 +17,7 @@ document.addEventListener("keydown", function (e) {
     const keyCodeVal = e.keyCode;
     keyCodesArray.forEach(function (keyFromArray, index) {
         if (keyFromArray == keyCodeVal) {
+            audio[index].currentTime = 0;
             keyDivs[index].classList.add("playing");
             audio[index].play();
         }
